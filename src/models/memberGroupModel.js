@@ -1,0 +1,29 @@
+import mongoose from "mongoose";
+
+const memberGroupSchema = new mongoose.Schema(
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            reference: "User",
+            required: true
+        },
+        group: {
+            type: mongoose.Schema.Types.ObjectId,
+            reference: "ReadingGroup",
+            required: true
+        },
+        role: {
+            type: String,
+            enum: ["super reader", "reader"],
+            default: "reader"
+        },
+        unitedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }
+)
+
+const MemberGroups = mongoose.model("MemberGroup", memberGroupSchema)
+
+export default MemberGroups
