@@ -11,7 +11,8 @@ class quoteController {
             }
             res.json(
                 {
-                    status: "OK",
+                    ok: true,
+                    status: 200,
                     message: "Citas cargadas con éxito",
                     data: {
                         quotes: quotes
@@ -98,7 +99,7 @@ class quoteController {
                     status: 200,
                     message: "cita cargada con exito",
                     data : {
-                        quoteCreated: quoteCreated
+                        newQuote: quoteCreated
                     }
                 }
             )

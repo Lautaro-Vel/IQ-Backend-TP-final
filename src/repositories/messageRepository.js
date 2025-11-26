@@ -11,18 +11,17 @@ class messageRepository {
         return newMessage
     }
     static async getMessagesByGroup(groupID) {
-        // Los mensajes se obtienen en orden natural (por _id que ya es cronológico)
         const messages = await MessageGroups.find({group: groupID})
         return messages
     }
     static async getOneMessage(messageID) {
         const oneMessage = await MessageGroups.findById(messageID)
         return oneMessage
-    }  
+    }
     static async deleteMessage (messageID) {
         await MessageGroups.findByIdAndDelete(messageID)
         return true
-    }   
+    }
 }
 
 export default messageRepository

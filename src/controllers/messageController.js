@@ -74,7 +74,6 @@ class messageController {
             )
         }
     }
-
     static async deleteMessage(req, res) {
         try {
             const {messageId} = req.params

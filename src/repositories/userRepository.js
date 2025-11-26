@@ -26,11 +26,11 @@ class usersRepository {
     static async getOneUser(idUser) {
         const oneUserFind = await Users.findById(idUser)
         return oneUserFind
-    }  
+    }
     static async deleteUser (idUser) {
         await Users.findByIdAndDelete(idUser)
         return true
-    }   
+    }
     static async updateUser (idUser, newValuesUser) {
         const updatedUser = await Users.findByIdAndUpdate(
             idUser,

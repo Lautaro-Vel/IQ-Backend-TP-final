@@ -2,7 +2,7 @@ import ENVIRONMENT from "../config/environmentConfig.js";
 import usersRepository from "../repositories/userRepository.js";
 import authService from "../services/authService.js";
 import { ServerError } from "../utils/serverError.js";
-
+import jwt from "jsonwebtoken";
 
 class authController {
     static async register(req, res) {
@@ -48,7 +48,11 @@ class authController {
         try {
             const {authRegisterToken} = req.params
             await authService.checkMail(authRegisterToken)
-            res.redirect(`${ENVIRONMENT.FRONTEND_URL}/login`)    
+            res.json({
+                ok: true,
+                status: 200,
+                message: "Email verificado correctamente"
+            })    
         }
         catch(error) {
             if(error.status) {
@@ -79,13 +83,23 @@ class authController {
                 throw new ServerError(400, "debes ingresar tu contraseña.")
             }
             const authLoginToken = await authService.login(gmail, password)
+            const userData = jwt.decode(authLoginToken)
             res.json(
                 {
                     ok:true,
                     status:200,
                     message:"usuario logueado correctamente",
                     data: {
-                        authLoginToken: authLoginToken
+                        token: authLoginToken,
+                        user: {
+                            id: userData.id,
+                            mail: userData.mail,
+                            name: userData.name,
+                            age: userData.age,
+                            nationality: userData.nationality,
+                            surname: userData.surname,
+                            profession: userData.profession
+                        }
                     }
                 }
             )    

@@ -63,7 +63,6 @@ class authService {
                 throw new ServerError(400, "Token expirado: tiempo de verificacion expirado.")
             }
         }
-
     }
     static async login (gmail, password) {
         const userFound = await usersRepository.getByMail(gmail)

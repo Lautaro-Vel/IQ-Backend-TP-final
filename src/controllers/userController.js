@@ -74,7 +74,7 @@ class userController {
             if(!nationality) {
                 updateData.nationality = req.user.nationality
             } else {
-                updateData.nationality = nationality  // ← Agregar cuando SÍ viene
+                updateData.nationality = nationality
             }
             const updatedUser = await usersRepository.updateUser(userID, updateData)
             if (!updatedUser) {
