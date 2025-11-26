@@ -7,11 +7,9 @@ async function connectMongoDB() {
             timeoutMS: 60000,
             socketTimeoutMS: 60000
         })
-        console.log('Conexion con MongoDB fue exitosa')
     }
     catch(error){
         console.error('La conexion con MongoDB fallo')
-        console.log(error)
     }
 }
 
