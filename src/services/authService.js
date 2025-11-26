@@ -34,7 +34,7 @@ class authService {
                     <p>Hola ${username},</p>
                     <p>Haz clic para verificar tu cuenta:</p>
                     <div style="text-align: center; margin: 20px 0;">
-                        <a href="http://localhost:8080/api/auth/check-mail/${authRegisterToken}" 
+                        <a href="${ENVIRONMENT.FRONTEND_URL}/verify-email/${authRegisterToken}" 
                            style="background-color: #598392; color: #eff6e0; padding: 12px 25px; text-decoration: none; border-radius: 8px;">
                            Verificar
                         </a>
@@ -87,7 +87,10 @@ class authService {
                 surname: userFound.userSurname,
                 profession: userFound.profession
             },
-            ENVIRONMENT.JWT_SECRET_KEY
+            ENVIRONMENT.JWT_SECRET_KEY,
+            {
+                expiresIn: '3d'
+            }
         )
         return authLoginToken
     }

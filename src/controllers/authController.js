@@ -1,3 +1,4 @@
+import ENVIRONMENT from "../config/environmentConfig.js";
 import usersRepository from "../repositories/userRepository.js";
 import authService from "../services/authService.js";
 import { ServerError } from "../utils/serverError.js";
@@ -47,7 +48,7 @@ class authController {
         try {
             const {authRegisterToken} = req.params
             await authService.checkMail(authRegisterToken)
-            res.redirect("http://localhost:8080/api/auth/login")    
+            res.redirect(`${ENVIRONMENT.FRONTEND_URL}/login`)    
         }
         catch(error) {
             if(error.status) {

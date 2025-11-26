@@ -3,6 +3,7 @@ connectMongoDB()
 
 import express from "express"
 import cors from 'cors'
+import ENVIRONMENT from "./config/environmentConfig.js"
 import quoteRouter from "./routes/quoteRoute.js"
 import authRouter from "./routes/authRoute.js"
 import groupRouter from "./routes/groupRouter.js"
@@ -31,7 +32,6 @@ app.use("/api/user", userRouter)
 app.listen(
     8080, 
     () => {
-        console.log("Esto esta funcionado")
     }
 )
 

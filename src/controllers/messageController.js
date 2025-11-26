@@ -8,7 +8,7 @@ class messageController {
             const {message} = req.body
             const userID = req.user.id
             const userName = req.user.name
-            if(!message || message.lenght === 0){
+            if(!message || message.length === 0){
                 throw new ServerError(400, "debes ingresar un mensaje")
             }
             const newMessage = await messageRepository.createMessage(userID, groupId, userName, message)

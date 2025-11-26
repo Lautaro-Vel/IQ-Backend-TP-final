@@ -17,7 +17,6 @@ const authMiddleware = (request, response, next) => {
         next()
     }
     catch (error) {
-        console.log(error)
         if (error instanceof jwt.JsonWebTokenError) {
             return response.status(401).json(
                 {

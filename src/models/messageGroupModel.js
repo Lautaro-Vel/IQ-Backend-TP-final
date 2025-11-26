@@ -4,7 +4,7 @@ const messageGroupSchema = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            reference: "User",
+            ref: "User",
             required: true
         },
         group: {
