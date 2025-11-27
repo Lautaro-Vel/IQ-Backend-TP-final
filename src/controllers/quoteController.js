@@ -7,7 +7,14 @@ class quoteController {
         try {
             const quotes = await quoteRepository.getAll()
             if(quotes.length === 0) {
-                throw new ServerError(200, "no hay citas por el momento, agrega una!")
+                return res.json({
+                    ok: true,
+                    status: 200,
+                    message: "No hay citas por el momento, agrega una!",
+                    data: {
+                        quotes: []
+                    }
+                })
             }
             res.json(
                 {
@@ -27,7 +34,6 @@ class quoteController {
                         ok: false,
                         status: Error.status,
                         message: Error.message
-
                     }
                 )
             } else {
