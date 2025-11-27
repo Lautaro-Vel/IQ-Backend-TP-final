@@ -9,7 +9,7 @@ const memberGroupSchema = new mongoose.Schema(
         },
         group: {
             type: mongoose.Schema.Types.ObjectId,
-            reference: "ReadingGroup",
+            ref: "ReadingGroup",
             required: true
         },
         role: {
