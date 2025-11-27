@@ -93,7 +93,7 @@ class authController {
                         token: authLoginToken,
                         user: {
                             id: userData.id,
-                            mail: userData.mail,
+                            gmail: userData.gmail,
                             name: userData.name,
                             age: userData.age,
                             nationality: userData.nationality,

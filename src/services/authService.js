@@ -79,7 +79,7 @@ class authService {
         const authLoginToken = jwt.sign(
             {
                 id: userFound._id,
-                mail: userFound.mail,
+                gmail: userFound.mail,
                 name: userFound.userName,
                 age: userFound.age,
                 nationality: userFound.nationality,
