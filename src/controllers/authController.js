@@ -6,43 +6,36 @@ import jwt from "jsonwebtoken";
 
 class authController {
     static async register(req, res) {
-        try{
-            const {name, gmail, password} = req.body
-            if(!name) {
-                throw new ServerError(400, "nombre de usuario mal ingresado o de sintaxis incorrecta")
-            } else if(!gmail || !String(gmail).toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)){
-                throw new ServerError(400, "mail mal ingresado o de sintaxis incorrecta")
-            } else if(!password || password.length < 8) {
-                throw new ServerError(400, "contraseña mal ingresada o de sintaxis incorrecta")
-            }
-            await authService.register(name, gmail, password)
-            res.json(
-                {
-                    ok:true,
-                    status:200,
-                    message:"usuario registrado correctamente"
+            try {
+                const { userName, mail, password } = req.body;
+                if (!userName) {
+                    throw new ServerError(400, "nombre de usuario mal ingresado o de sintaxis incorrecta");
+                } else if (!mail || !String(mail).toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    throw new ServerError(400, "mail mal ingresado o de sintaxis incorrecta");
+                } else if (!password || password.length < 8) {
+                    throw new ServerError(400, "contrase\u00f1a mal ingresada o de sintaxis incorrecta");
                 }
-            )
-        }
-        catch(error) {
-            if (error.status){
-                return res.json(
-                    {
+                await authService.register(userName, mail, password);
+                res.json({
+                    ok: true,
+                    status: 200,
+                    message: "usuario registrado correctamente"
+                });
+            } catch (error) {
+                if (error.status) {
+                    return res.json({
                         ok: false,
                         status: error.status,
                         message: error.message
-                    }
-                )
-            } else {
-                return res.json(
-                    {
-                        ok:false,
+                    });
+                } else {
+                    return res.json({
+                        ok: false,
                         status: 500,
-                        message:"error interno del servidor."
-                    }
-                )
+                        message: "error interno del servidor."
+                    });
+                }
             }
-        }
     }
     static async checkMail (req, res) {
         try {
