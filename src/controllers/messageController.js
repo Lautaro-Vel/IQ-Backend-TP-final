@@ -43,35 +43,39 @@ class messageController {
     }
     static async getMessages(req, res) {
         try {
-            const {groupId} = req.params
-            const messages = await messageRepository.getMessagesByGroup(groupId)
-            res.json(
-                {
+            const { groupId } = req.params;
+            const messages = await messageRepository.getMessagesByGroup(groupId);
+            if (!messages || messages.length === 0) {
+                return res.json({
                     ok: true,
                     status: 200,
-                    message: "mensajes cargados",
+                    message: "No hay mensajes en este grupo todavía.",
                     data: {
-                        messages
+                        messages: []
                     }
+                });
+            }
+            res.json({
+                ok: true,
+                status: 200,
+                message: "mensajes cargados",
+                data: {
+                    messages
                 }
-            )
+            });
         } catch (error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            res.json(
-                {
+                return res.json({
                     ok: false,
-                    status: 500,
-                    message: "error interno del servidor"
-                }
-            )
+                    status: error.status,
+                    message: error.message
+                });
+            }
+            res.json({
+                ok: false,
+                status: 500,
+                message: "error interno del servidor"
+            });
         }
     }
     static async deleteMessage(req, res) {

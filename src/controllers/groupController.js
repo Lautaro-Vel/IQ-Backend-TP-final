@@ -6,38 +6,38 @@ import {checkID} from "../utils/checkID.js";
 class groupController {
     static async getAllGroups(req, res) {
         try {
-            const groups = await readingGroupRepository.getAllGroups()
+            const groups = await readingGroupRepository.getAllGroups();
             if (groups.length === 0) {
-                throw new ServerError(200, "no hay grupos disponibles por el momento, crea uno!")
-            }
-            res.json(
-                {
+                return res.json({
                     ok: true,
                     status: 200,
-                    message: "grupos cargados con exito",
+                    message: "no hay grupos disponibles por el momento, crea uno!",
                     data: {
-                        groups: groups
+                        groups: []
                     }
+                });
+            }
+            res.json({
+                ok: true,
+                status: 200,
+                message: "grupos cargados con exito",
+                data: {
+                    groups: groups
                 }
-            )
-        }
-        catch(error) {
+            });
+        } catch (error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                });
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                });
             }
         }
     }

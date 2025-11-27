@@ -5,8 +5,8 @@ import { ServerError } from "../utils/serverError.js";
 class quoteController {
     static async getAllQuote (req, res) {
         try {
-            const quotes = await quoteRepository.getAll()
-            if(quotes.length === 0) {
+            const quotes = await quoteRepository.getAll();
+            if (quotes.length === 0) {
                 return res.json({
                     ok: true,
                     status: 200,
@@ -14,74 +14,67 @@ class quoteController {
                     data: {
                         quotes: []
                     }
-                })
+                });
             }
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "Citas cargadas con éxito",
-                    data: {
-                        quotes: quotes
-                    }
+            res.json({
+                ok: true,
+                status: 200,
+                message: "Citas cargadas con éxito",
+                data: {
+                    quotes: quotes
                 }
-            )
-        }
-        catch(Error) {
-            if(Error.status){                
-                return res.status(Error.status).json(
-                    {
-                        ok: false,
-                        status: Error.status,
-                        message: Error.message
-                    }
-                )
+            });
+        } catch (Error) {
+            if (Error.status) {
+                return res.status(Error.status).json({
+                    ok: false,
+                    status: Error.status,
+                    message: Error.message
+                });
             } else {
-                return res.status(500).json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: 'Error interno del servidor'
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: 'Error interno del servidor'
+                });
             }
         }
     }
     static async getUserQuotes (req, res) {
         try {
-            const userID = req.user.id
-            const userQuotes = await quoteRepository.getQuoteByUserID(userID)
-            if(userQuotes.length === 0){
-                throw new ServerError(204, "no tienes citas aun, publica una.")
-            }
-            res.json(
-                {
-                    ok:true,
+            const userID = req.user.id;
+            const userQuotes = await quoteRepository.getQuoteByUserID(userID);
+            if (userQuotes.length === 0) {
+                return res.json({
+                    ok: true,
                     status: 200,
-                    message: "tus citas se cargaron con exito.",
+                    message: "no tienes citas aun, publica una.",
                     data: {
-                        userQuotes: userQuotes
+                        userQuotes: []
                     }
+                });
+            }
+            res.json({
+                ok: true,
+                status: 200,
+                message: "tus citas se cargaron con exito.",
+                data: {
+                    userQuotes: userQuotes
                 }
-            )
-        }
-        catch (error){
-            if(error.status){
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+            });
+        } catch (error) {
+            if (error.status) {
+                return res.json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                });
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor."
-                    }
-                )
+                return res.json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor."
+                });
             }
         }
     }
