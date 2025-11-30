@@ -5,6 +5,8 @@ MENSAJE PARA ENCARGADO DE CORRECCIÓN: {
     ----------------------------------------------------------------------------
 
     Yo otra vez, primero que nada Lauti, muchas gracias por la tercera oportunidad jaja, siendote sincero, la frustracion ya era mucha y no le encontraba la vuelta, pero despues de ver tu devolución y tu mensaje de aliento me di cuenta que tenias razón, ya habia llegado hasta aca. Te agradezco por eso tambien, despues de eso me tranquilice, me puse a ver las cosas en frio y empece con todo, en dia y medio pude solucionar todos los errores que tenia que eran cosas muy tontas. mucha suerte y excelentisimo tutor, un abrazo.
+
+    PD: hay un error que al, por ejemplo, loguearte y despues cerrar la pestaña, el token queda en el localStorage por lo que cuando quieras entrar otra vez, va a dar error, por lo que mi solucion fue añadir un boton de logout, el cual esta el la ruta principal (/), es un icono: IQ, en la esquina superior izquierda.
 }
 
 TECNOLOGIAS USADAS: {
