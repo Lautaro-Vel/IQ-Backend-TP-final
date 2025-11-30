@@ -11,8 +11,8 @@ class quoteRepository {
         return newQuote
     }
     static async getAll() {
-        const getAllQuotes = await Quotes.find()
-        return getAllQuotes
+        const getAllQuotes = await Quotes.find().populate('user');
+        return getAllQuotes;
     }
     static async getOneQuote(idQuote) {
         const oneQuoteFind = await Quotes.findById(idQuote)

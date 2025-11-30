@@ -16,20 +16,20 @@ class authController {
                 throw new ServerError(400, "contrase\u00f1a mal ingresada o de sintaxis incorrecta");
             }
             await authService.register(userName, mail, password);
-            res.json({
+            res.status(201).json({
                 ok: true,
-                status: 200,
+                status: 201,
                 message: "usuario registrado correctamente"
             });
         } catch (error) {
             if (error.status) {
-                return res.json({
+                return res.status(error.status).json({
                     ok: false,
                     status: error.status,
                     message: error.message
                 });
             } else {
-                return res.json({
+                return res.status(500).json({
                     ok: false,
                     status: 500,
                     message: "error interno del servidor."
@@ -41,7 +41,7 @@ class authController {
         try {
             const {authRegisterToken} = req.params
             await authService.checkMail(authRegisterToken)
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "Email verificado correctamente"
@@ -49,21 +49,17 @@ class authController {
         }
         catch(error) {
             if(error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok:false,
-                        status: 500,
-                        message:"error interno del servidor."
-                    }
-                )
+                return res.status(500).json({
+                    ok:false,
+                    status: 500,
+                    message:"error interno del servidor."
+                })
             }
         }
     }
@@ -77,43 +73,37 @@ class authController {
             }
             const authLoginToken = await authService.login(mail, password)
             const userData = jwt.decode(authLoginToken)
-            res.json(
-                {
-                    ok:true,
-                    status:200,
-                    message:"usuario logueado correctamente",
-                    data: {
-                        token: authLoginToken,
-                        user: {
-                            id: userData.id,
-                            mail: userData.mail,
-                            name: userData.name,
-                            age: userData.age,
-                            nationality: userData.nationality,
-                            surname: userData.surname,
-                            profession: userData.profession
-                        }
+            res.status(200).json({
+                ok:true,
+                status:200,
+                message:"usuario logueado correctamente",
+                data: {
+                    token: authLoginToken,
+                    user: {
+                        id: userData.id,
+                        mail: userData.mail,
+                        name: userData.name,
+                        age: userData.age,
+                        nationality: userData.nationality,
+                        surname: userData.surname,
+                        profession: userData.profession
                     }
                 }
-            )    
+            })    
         }
         catch(error){
             if(error.status) {
-                return res.json(
-                    {
-                        ok:false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok:false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false, 
-                        status: 500,
-                        message: "error interno del servidor."
-                    }
-                )
+                return res.status(500).json({
+                    ok: false, 
+                    status: 500,
+                    message: "error interno del servidor."
+                })
             }
         }
     }

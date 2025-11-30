@@ -8,7 +8,7 @@ class groupController {
         try {
             const groups = await readingGroupRepository.getAllGroups();
             if (groups.length === 0) {
-                return res.json({
+                return res.status(200).json({
                     ok: true,
                     status: 200,
                     message: "no hay grupos disponibles por el momento, crea uno!",
@@ -17,7 +17,7 @@ class groupController {
                     }
                 });
             }
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "grupos cargados con exito",
@@ -27,13 +27,13 @@ class groupController {
             });
         } catch (error) {
             if (error.status) {
-                return res.json({
+                return res.status(error.status).json({
                     ok: false,
                     status: error.status,
                     message: error.message
                 });
             } else {
-                return res.json({
+                return res.status(500).json({
                     ok: false,
                     status: 500,
                     message: "error interno del servidor"
@@ -51,34 +51,28 @@ class groupController {
             if (!group) {
                 throw new ServerError(404, "grupo no encontrado")
             }
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "grupo encontrado",
-                    data: {
-                        group: group
-                    }
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "grupo encontrado",
+                data: {
+                    group: group
                 }
-            )
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -98,34 +92,28 @@ class groupController {
             }
             const newGroup = await readingGroupRepository.createGroup(groupName, description)
             await MemberGroupRepository.joinMember(userID, newGroup._id, "super reader")
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "grupo creado con exito",
-                    data: {
-                        group: newGroup
-                    }
+            res.status(201).json({
+                ok: true,
+                status: 201,
+                message: "grupo creado con exito",
+                data: {
+                    group: newGroup
                 }
-            )
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -141,34 +129,28 @@ class groupController {
                 throw new ServerError(404, "grupo no encontrado")
             }
             if (!group.active) {
-                throw new ServerError(400, "el grupo no esta activo")
+                throw new ServerError(403, "el grupo no esta activo")
             }
             await MemberGroupRepository.joinMember(userID, groupId)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "te uniste al grupo con exito"
-                }
-            )
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "te uniste al grupo con exito"
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -177,36 +159,37 @@ class groupController {
             const userID = req.user.id
             const myGroups = await MemberGroupRepository.getGroupsByMember(userID)
             if (!myGroups || myGroups.length === 0) {
-                throw new ServerError(200, "no perteneces a ningun grupo aun, unete a uno!")
-            }
-            res.json(
-                {
+                return res.status(200).json({
                     ok: true,
                     status: 200,
-                    message: "tus grupos se cargaron con exito",
+                    message: "no perteneces a ningun grupo aun, unete a uno!",
                     data: {
-                        groups: myGroups
+                        groups: []
                     }
+                })
+            }
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "tus grupos se cargaron con exito",
+                data: {
+                    groups: myGroups
                 }
-            )
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message 
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message 
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -218,31 +201,25 @@ class groupController {
                 throw new ServerError(400, "el ID de grupo recibido por parametro no es un ID valido")
             }
             await MemberGroupRepository.leaveMember(userID, groupId)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "saliste del grupo con exito"
-                }
-            )
+            res.status(204).json({
+                ok: true,
+                status: 204,
+                message: "saliste del grupo con exito"
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }

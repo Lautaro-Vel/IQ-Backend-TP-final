@@ -12,33 +12,27 @@ class messageController {
                 throw new ServerError(400, "debes ingresar un mensaje")
             }
             const newMessage = await messageRepository.createMessage(userID, groupId, userName, message)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "el mensaje se envio correctamente",
-                    data: {
-                        newMessage
-                    }
+            res.status(201).json({
+                ok: true,
+                status: 201,
+                message: "el mensaje se envio correctamente",
+                data: {
+                    newMessage
                 }
-            )
+            })
         } catch (error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            res.json(
-                {
+                return res.status(error.status).json({
                     ok: false,
-                    status: 500,
-                    message: "error interno del servidor."
-                }
-            )
+                    status: error.status,
+                    message: error.message
+                })
+            }
+            res.status(500).json({
+                ok: false,
+                status: 500,
+                message: "error interno del servidor."
+            })
         }
     }
     static async getMessages(req, res) {
@@ -46,7 +40,7 @@ class messageController {
             const { groupId } = req.params;
             const messages = await messageRepository.getMessagesByGroup(groupId);
             if (!messages || messages.length === 0) {
-                return res.json({
+                return res.status(200).json({
                     ok: true,
                     status: 200,
                     message: "No hay mensajes en este grupo todavía.",
@@ -55,7 +49,7 @@ class messageController {
                     }
                 });
             }
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "mensajes cargados",
@@ -65,13 +59,13 @@ class messageController {
             });
         } catch (error) {
             if (error.status) {
-                return res.json({
+                return res.status(error.status).json({
                     ok: false,
                     status: error.status,
                     message: error.message
                 });
             }
-            res.json({
+            res.status(500).json({
                 ok: false,
                 status: 500,
                 message: "error interno del servidor"
@@ -90,28 +84,23 @@ class messageController {
                 throw new ServerError(403, "no puedes eliminar mensajes de otras personas")
             }
             await messageRepository.deleteMessage(messageId)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "mensaje eliminado"
-                }
-            )
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "mensaje eliminado"
+            })
         } catch (error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
-            }
-            res.json(
-                {
+                return res.status(error.status).json({
                     ok: false,
-                    status: 500,
-                    message: "error interno del servidor"
+                    status: error.status,
+                    message: error.message
+                })
+            }
+            res.status(500).json({
+                ok: false,
+                status: 500,
+                message: "error interno del servidor"
             })
         }
     }

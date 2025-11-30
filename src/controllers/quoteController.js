@@ -7,7 +7,7 @@ class quoteController {
         try {
             const quotes = await quoteRepository.getAll();
             if (quotes.length === 0) {
-                return res.json({
+                return res.status(200).json({
                     ok: true,
                     status: 200,
                     message: "No hay citas por el momento, agrega una!",
@@ -16,7 +16,7 @@ class quoteController {
                     }
                 });
             }
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "Citas cargadas con éxito",
@@ -45,7 +45,7 @@ class quoteController {
             const userID = req.user.id;
             const userQuotes = await quoteRepository.getQuoteByUserID(userID);
             if (userQuotes.length === 0) {
-                return res.json({
+                return res.status(200).json({
                     ok: true,
                     status: 200,
                     message: "no tienes citas aun, publica una.",
@@ -54,7 +54,7 @@ class quoteController {
                     }
                 });
             }
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "tus citas se cargaron con exito.",
@@ -64,13 +64,13 @@ class quoteController {
             });
         } catch (error) {
             if (error.status) {
-                return res.json({
+                return res.status(error.status).json({
                     ok: false,
                     status: error.status,
                     message: error.message
                 });
             } else {
-                return res.json({
+                return res.status(500).json({
                     ok: false,
                     status: 500,
                     message: "error interno del servidor."
@@ -92,34 +92,28 @@ class quoteController {
                 throw new ServerError(400, "tu cita debe tener entre 10 y 400 caracteres.")
             }
             const quoteCreated = await quoteRepository.createQuote(userID, name, author, quote)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "cita cargada con exito",
-                    data : {
-                        newQuote: quoteCreated
-                    }
+            res.status(201).json({
+                ok: true,
+                status: 201,
+                message: "cita cargada con exito",
+                data : {
+                    newQuote: quoteCreated
                 }
-            )
+            })
         }
         catch(error){
             if (error.status){
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -137,31 +131,25 @@ class quoteController {
                 throw new ServerError(403, "No puedes eliminar esta cita")
             }
             await quoteRepository.deleteQuote(quoteID)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "Cita eliminada con éxito"
-                }
-            )
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "Cita eliminada con éxito"
+            })
         }
         catch(error) {
             if(error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor."
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor."
+                })
             }
         } 
     }

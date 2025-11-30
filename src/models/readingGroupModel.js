@@ -4,11 +4,11 @@ const readingGroupSchema = new mongoose.Schema(
     {
         groupName: {
             type: String,
-            require: true
+            required: true
         },
         description: {
             type: String,
-            require: true
+            required: true
         },
         created_at: {
             type: Date,

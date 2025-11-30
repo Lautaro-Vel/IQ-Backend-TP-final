@@ -18,7 +18,6 @@ TECNOLOGIAS USADAS: {
 INSTALACION: {
     1- Instalar dependencias: npm install
     2- Configurar variables de entorno (.env) {
-        MONGO_DB_CONNECTION_STRING=mongodb://localhost:27017/iq-backend
         JWT_SECRET_KEY=
         GMAIL_NAME=
         GMAIL_PASSWORD_KEY= 

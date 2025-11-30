@@ -10,34 +10,28 @@ class userController {
             if (!user) {
                 throw new ServerError(404, "usuario no encontrado")
             }
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "perfil obtenido correctamente",
-                    data: {
-                        user: user
-                    }
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "perfil obtenido correctamente",
+                data: {
+                    user: user
                 }
-            )
+            })
         }
         catch(error) {
             if(error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -80,7 +74,7 @@ class userController {
             if (!updatedUser) {
                 throw new ServerError(404, "usuario no encontrado")
             }
-            res.json({
+            res.status(200).json({
                 ok: true,
                 status: 200,
                 message: "perfil actualizado correctamente",
@@ -91,21 +85,17 @@ class userController {
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -118,31 +108,25 @@ class userController {
                 throw new ServerError(404, "usuario no encontrado")
             }
             await usersRepository.deleteUser(userID)
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "cuenta eliminada correctamente"
-                }
-            )
+            res.status(204).json({
+                ok: true,
+                status: 204,
+                message: "cuenta eliminada correctamente"
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
@@ -157,34 +141,28 @@ class userController {
             if(!user) {
                 throw new ServerError(404, "usuario no encontrado")
             }
-            res.json(
-                {
-                    ok: true,
-                    status: 200,
-                    message: "usuario encontrado",
-                    data: {
-                        user: user
-                    }
+            res.status(200).json({
+                ok: true,
+                status: 200,
+                message: "usuario encontrado",
+                data: {
+                    user: user
                 }
-            )
+            })
         }
         catch(error) {
             if (error.status) {
-                return res.json(
-                    {
-                        ok: false,
-                        status: error.status,
-                        message: error.message
-                    }
-                )
+                return res.status(error.status).json({
+                    ok: false,
+                    status: error.status,
+                    message: error.message
+                })
             } else {
-                return res.json(
-                    {
-                        ok: false,
-                        status: 500,
-                        message: "error interno del servidor"
-                    }
-                )
+                return res.status(500).json({
+                    ok: false,
+                    status: 500,
+                    message: "error interno del servidor"
+                })
             }
         }
     }
